@@ -36,7 +36,6 @@ import { HashrateChartPoolsComponent } from '../components/hashrates-chart-pools
 import { BlockHealthGraphComponent } from '../components/block-health-graph/block-health-graph.component';
 import { AddressComponent } from '../components/address/address.component';
 import { AddressGraphComponent } from '../components/address-graph/address-graph.component';
-import { UtxoGraphComponent } from '../components/utxo-graph/utxo-graph.component';
 import { ActiveAccelerationBox } from '../components/acceleration/active-acceleration-box/active-acceleration-box.component';
 import { CommonModule } from '@angular/common';
 
@@ -77,7 +76,6 @@ import { CommonModule } from '@angular/common';
     HashrateChartPoolsComponent,
     BlockHealthGraphComponent,
     AddressGraphComponent,
-    UtxoGraphComponent,
     ActiveAccelerationBox,
   ],
   imports: [

@@ -286,7 +286,7 @@ export class TrackerComponent implements OnInit, OnDestroy {
         this.accelerationInfo = null;
       }),
       switchMap((blockHash: string) => {
-        return this.servicesApiService.getAllAccelerationHistory$({ blockHash }, null, this.txId);
+        return this.servicesApiService.getAccelerationHistory$({ blockHash });
       }),
       catchError(() => {
         return of(null);

@@ -32,7 +32,8 @@ export class MasterPageComponent implements OnInit, OnDestroy {
   servicesEnabled = false;
   menuOpen = false;
   isDropdownVisible: boolean;
-  
+  isInputFocused = false;
+
   enterpriseInfo: any;
   enterpriseInfo$: Subscription;
 
@@ -69,13 +70,18 @@ export class MasterPageComponent implements OnInit, OnDestroy {
     this.enterpriseInfo$ = this.enterpriseService.info$.subscribe(info => {
       this.enterpriseInfo = info;
     });
-    
+
     this.servicesEnabled = this.officialMempoolSpace && this.stateService.env.ACCELERATOR === true && this.stateService.network === '';
     this.refreshAuth();
 
     const isServicesPage = this.router.url.includes('/services/');
     this.menuOpen = isServicesPage && !this.isSmallScreen();
     this.setDropdownVisibility();
+  }
+
+  handleInputFocus(isFocused: boolean) {
+    console.log(isFocused);
+    this.isInputFocused = isFocused;
   }
 
   setDropdownVisibility(): void {
@@ -127,10 +133,13 @@ export class MasterPageComponent implements OnInit, OnDestroy {
     this.menuOpen = isOpen;
   }
 
+  isMasterPage(): boolean {
+    return this.router.url === '/';
+  }
+
   ngOnDestroy(): void {
     if (this.enterpriseInfo$) {
       this.enterpriseInfo$.unsubscribe();
     }
   }
-
 }

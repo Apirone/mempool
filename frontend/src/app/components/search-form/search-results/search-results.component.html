@@ -1,4 +1,5 @@
-<div class="dropdown-menu show" *ngIf="results" [hidden]="!results.hashQuickMatch && !results.otherNetworks.length && !results.addresses.length && !results.nodes.length && !results.channels.length && !results.liquidAsset.length && !results.pools.length">
+<!--&& !results.pools.length-->
+<div class="dropdown-menu show" *ngIf="results" [hidden]="!results.hashQuickMatch && !results.otherNetworks.length && !results.addresses.length && !results.nodes.length && !results.channels.length && !results.liquidAsset.length">
   <ng-template [ngIf]="results.blockHeight">
     <div class="card-title" i18n="search.bitcoin-block-height">{{ networkName }} Block Height</div>
     <button (click)="clickItem(0)" [class.active]="0 === activeIdx" type="button" role="option" class="dropdown-item">
@@ -43,15 +44,15 @@
       </button>
     </ng-template>
   </ng-template>
-  <ng-template [ngIf]="results.pools.length">
-    <div class="card-title" i18n="search.mining-pools">Mining Pools</div>
-    <ng-template ngFor [ngForOf]="results.pools" let-pool let-i="index">
-      <button (click)="clickItem(results.hashQuickMatch + results.addresses.length + i)" [class.active]="results.hashQuickMatch + results.addresses.length + i === activeIdx" [class.inactive]="!pool.active" type="button" role="option" class="dropdown-item">
-        <img class="pool-logo" [src]="'/resources/mining-pools/' + pool.slug + '.svg'" onError="this.src = '/resources/mining-pools/default.svg'" [alt]="'Logo of ' + pool.name + ' mining pool'">
-        <ngb-highlight [result]="pool.name" [term]="results.searchText"></ngb-highlight>
-      </button>
-    </ng-template>
-  </ng-template>
+<!--  <ng-template [ngIf]="results.pools.length">-->
+<!--    <div class="card-title" i18n="search.mining-pools">Mining Pools</div>-->
+<!--    <ng-template ngFor [ngForOf]="results.pools" let-pool let-i="index">-->
+<!--      <button (click)="clickItem(results.hashQuickMatch + results.addresses.length + i)" [class.active]="results.hashQuickMatch + results.addresses.length + i === activeIdx" [class.inactive]="!pool.active" type="button" role="option" class="dropdown-item">-->
+<!--        <img class="pool-logo" [src]="'/resources/mining-pools/' + pool.slug + '.svg'" onError="this.src = '/resources/mining-pools/default.svg'" [alt]="'Logo of ' + pool.name + ' mining pool'">-->
+<!--        <ngb-highlight [result]="pool.name" [term]="results.searchText"></ngb-highlight>-->
+<!--      </button>-->
+<!--    </ng-template>-->
+<!--  </ng-template>-->
   <ng-template [ngIf]="results.nodes.length">
     <div class="card-title" i18n="search.lightning-nodes">Lightning Nodes</div>
     <ng-template ngFor [ngForOf]="results.nodes" let-node let-i="index">

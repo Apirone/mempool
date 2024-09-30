@@ -20,15 +20,15 @@
     (dragstart)="onDragStart($event)"
     (scroll)="onScroll($event)"
   >
-    <app-blockchain
-      [containerWidth]="chainWidth"
-      [pageIndex]="pageIndex"
-      [pages]="pages"
-      [blocksPerPage]="blocksPerPage"
-      [minScrollWidth]="minScrollWidth"
-      [scrollableMempool]="true"
-      (mempoolOffsetChange)="onMempoolOffsetChange($event)"
-    ></app-blockchain>
+<!--    <app-blockchain-->
+<!--      [containerWidth]="chainWidth"-->
+<!--      [pageIndex]="pageIndex"-->
+<!--      [pages]="pages"-->
+<!--      [blocksPerPage]="blocksPerPage"-->
+<!--      [minScrollWidth]="minScrollWidth"-->
+<!--      [scrollableMempool]="true"-->
+<!--      (mempoolOffsetChange)="onMempoolOffsetChange($event)"-->
+<!--    ></app-blockchain>-->
   </div>
   <div class="reset-scroll" [class.hidden]="pageIndex === 0" (click)="resetScroll()">
     <fa-icon [icon]="['fas', 'circle-left']" [fixedWidth]="true"></fa-icon>

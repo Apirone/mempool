@@ -13,6 +13,7 @@ import { RbfList } from './components/rbf-list/rbf-list.component';
 import { ServerHealthComponent } from './components/server-health/server-health.component';
 import { ServerStatusComponent } from './components/server-health/server-status.component';
 import { FaucetComponent } from './components/faucet/faucet.component'
+import { AprLogoComponent } from "./shared/apr-logo/apr-logo.component";
 
 const browserWindow = window || {};
 // @ts-ignore
@@ -145,6 +146,7 @@ export class MasterPageRoutingModule { }
     CommonModule,
     MasterPageRoutingModule,
     SharedModule,
+    AprLogoComponent,
   ],
   declarations: [
     MasterPageComponent,

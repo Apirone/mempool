@@ -16,125 +16,125 @@ const browserWindow = window || {};
 const browserWindowEnv = browserWindow.__env || {};
 
 let routes: Routes = [
-  {
-    path: 'testnet',
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '',
-        loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
-        data: { preload: true },
-      },
-      {
-        path: 'wallet',
-        children: [],
-        component: AddressGroupComponent,
-        data: {
-          networkSpecific: true,
-        }
-      },
-      {
-        path: 'status',
-        data: { networks: ['bitcoin', 'liquid'] },
-        component: StatusViewComponent
-      },
-      {
-        path: '',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '**',
-        redirectTo: '/testnet'
-      },
-    ]
-  },
-  {
-    path: 'testnet4',
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '',
-        loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
-        data: { preload: true },
-      },
-      {
-        path: 'wallet',
-        children: [],
-        component: AddressGroupComponent,
-        data: {
-          networkSpecific: true,
-        }
-      },
-      {
-        path: 'status',
-        data: { networks: ['bitcoin', 'liquid'] },
-        component: StatusViewComponent
-      },
-      {
-        path: '',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '**',
-        redirectTo: '/testnet4'
-      },
-    ]
-  },
-  {
-    path: 'signet',
-    children: [
-      {
-        path: 'mining/blocks',
-        redirectTo: 'blocks',
-        pathMatch: 'full'
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '',
-        loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
-        data: { preload: true },
-      },
-      {
-        path: 'wallet',
-        children: [],
-        component: AddressGroupComponent,
-        data: {
-          networkSpecific: true,
-        }
-      },
-      {
-        path: 'status',
-        data: { networks: ['bitcoin', 'liquid'] },
-        component: StatusViewComponent
-      },
-      {
-        path: '',
-        loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
-        data: { preload: true },
-      },
-      {
-        path: '**',
-        redirectTo: '/signet'
-      },
-    ]
-  },
+  // {
+  //   path: 'testnet',
+  //   children: [
+  //     {
+  //       path: '',
+  //       pathMatch: 'full',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: 'wallet',
+  //       children: [],
+  //       component: AddressGroupComponent,
+  //       data: {
+  //         networkSpecific: true,
+  //       }
+  //     },
+  //     {
+  //       path: 'status',
+  //       data: { networks: ['bitcoin', 'liquid'] },
+  //       component: StatusViewComponent
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '**',
+  //       redirectTo: '/testnet'
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: 'testnet4',
+  //   children: [
+  //     {
+  //       path: '',
+  //       pathMatch: 'full',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: 'wallet',
+  //       children: [],
+  //       component: AddressGroupComponent,
+  //       data: {
+  //         networkSpecific: true,
+  //       }
+  //     },
+  //     {
+  //       path: 'status',
+  //       data: { networks: ['bitcoin', 'liquid'] },
+  //       component: StatusViewComponent
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '**',
+  //       redirectTo: '/testnet4'
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: 'signet',
+  //   children: [
+  //     {
+  //       path: 'mining/blocks',
+  //       redirectTo: 'blocks',
+  //       pathMatch: 'full'
+  //     },
+  //     {
+  //       path: '',
+  //       pathMatch: 'full',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./master-page.module').then(m => m.MasterPageModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: 'wallet',
+  //       children: [],
+  //       component: AddressGroupComponent,
+  //       data: {
+  //         networkSpecific: true,
+  //       }
+  //     },
+  //     {
+  //       path: 'status',
+  //       data: { networks: ['bitcoin', 'liquid'] },
+  //       component: StatusViewComponent
+  //     },
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),
+  //       data: { preload: true },
+  //     },
+  //     {
+  //       path: '**',
+  //       redirectTo: '/signet'
+  //     },
+  //   ]
+  // },
   {
     path: '',
     pathMatch: 'full',
@@ -160,56 +160,56 @@ let routes: Routes = [
       networkSpecific: true,
     }
   },
-  {
-    path: 'preview',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
-      },
-      {
-        path: 'testnet',
-        loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
-      },
-      {
-        path: 'testnet4',
-        loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
-      },
-      {
-        path: 'signet',
-        loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
-      },
-    ],
-  },
-  {
-    path: 'clock',
-    redirectTo: 'clock/mempool/0'
-  },
-  {
-    path: 'clock/:mode',
-    redirectTo: 'clock/:mode/0'
-  },
-  {
-    path: 'clock/:mode/:index',
-    component: ClockComponent,
-  },
-  {
-    path: 'view/block/:id',
-    component: BlockViewComponent,
-  },
-  {
-    path: 'view/mempool-block/:index',
-    component: MempoolBlockViewComponent,
-  },
-  {
-    path: 'view/blocks',
-    component: EightBlocksComponent,
-  },
-  {
-    path: 'status',
-    data: { networks: ['bitcoin', 'liquid'] },
-    component: StatusViewComponent
-  },
+  // {
+  //   path: 'preview',
+  //   children: [
+  //     {
+  //       path: '',
+  //       loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
+  //     },
+  //     {
+  //       path: 'testnet',
+  //       loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
+  //     },
+  //     {
+  //       path: 'testnet4',
+  //       loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
+  //     },
+  //     {
+  //       path: 'signet',
+  //       loadChildren: () => import('./previews.module').then(m => m.PreviewsModule)
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: 'clock',
+  //   redirectTo: 'clock/mempool/0'
+  // },
+  // {
+  //   path: 'clock/:mode',
+  //   redirectTo: 'clock/:mode/0'
+  // },
+  // {
+  //   path: 'clock/:mode/:index',
+  //   component: ClockComponent,
+  // },
+  // {
+  //   path: 'view/block/:id',
+  //   component: BlockViewComponent,
+  // },
+  // {
+  //   path: 'view/mempool-block/:index',
+  //   component: MempoolBlockViewComponent,
+  // },
+  // {
+  //   path: 'view/blocks',
+  //   component: EightBlocksComponent,
+  // },
+  // {
+  //   path: 'status',
+  //   data: { networks: ['bitcoin', 'liquid'] },
+  //   component: StatusViewComponent
+  // },
   {
     path: '',
     loadChildren: () => import('./bitcoin-graphs.module').then(m => m.BitcoinGraphsModule),

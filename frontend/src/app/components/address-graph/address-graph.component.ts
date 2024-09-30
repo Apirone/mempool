@@ -147,7 +147,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
     if (!summary || !this.stats) {
       return;
     }
-    
+
     let total = (this.stats.funded_txo_sum - this.stats.spent_txo_sum);
     const processData = summary.map(d => {
         const balance = total;
@@ -160,7 +160,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
             d
         };
     }).reverse();
-    
+
     this.data = processData.filter(({ d }) => d.txid !== undefined).map(({ time, balance, d }) => [time, balance, d]);
     this.fiatData = processData.map(({ time, fiatBalance, balance, d }) => [time, fiatBalance, d, balance]);
 
@@ -202,7 +202,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
             name: $localize`:@@7e69426bd97a606d8ae6026762858e6e7c86a1fd:Balance`,
             inactiveColor: 'var(--grey)',
             textStyle: {
-              color: 'white',
+              color: '#2C3E50',
             },
             icon: 'roundRect',
           },
@@ -210,7 +210,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
             name: 'Fiat',
             inactiveColor: 'var(--grey)',
             textStyle: {
-              color: 'white',
+              color: '#2C3E50',
             },
             icon: 'roundRect',
           }
@@ -250,15 +250,15 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
             : `${data.length} transactions`;
             tooltip += `<span><b>${header}</b></span>`;
           }
-          
+
           const date = new Date(data[0].data[0]).toLocaleTimeString(this.locale, { year: 'numeric', month: 'short', day: 'numeric' });
-          
+
           tooltip += `<div>
             <div style="text-align: right;">`;
-          
+
           const formatBTC = (val, decimal) => (val / 100_000_000).toFixed(decimal);
           const formatFiat = (val) => this.fiatCurrencyPipe.transform(val, null, 'USD');
-          
+
           const btcVal = btcData.reduce((total, d) => total + d.data[2].value, 0);
           const fiatVal = fiatData.reduce((total, d) => total + d.data[2].value * d.data[2].price / 100_000_000, 0);
           const btcColor = btcVal === 0 ? '' : (btcVal > 0 ? 'var(--green)' : 'var(--red)');
@@ -403,7 +403,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
 
   onChartClick(e) {
     if (this.hoverData?.length && this.hoverData[0]?.[2]?.txid) {
-      this.zone.run(() => { 
+      this.zone.run(() => {
         const url = this.relativeUrlPipe.transform(`/tx/${this.hoverData[0][2].txid}`);
         if (e.event.event.shiftKey || e.event.event.ctrlKey || e.event.event.metaKey) {
           window.open(url);
@@ -439,7 +439,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
         right: this.right,
       }] : undefined
     };
-    
+
     if (this.chartInstance) {
       this.chartInstance.setOption(this.chartOptions);
     }
@@ -468,11 +468,11 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
     // Add a point at today's date to make the graph end at the current time
     extendedSummary.unshift({ time: Date.now() / 1000, value: 0 });
     extendedSummary.reverse();
-    
+
     let oneHour = 60 * 60;
     // Fill gaps longer than interval
     for (let i = 0; i < extendedSummary.length - 1; i++) {
-      let hours = Math.floor((extendedSummary[i + 1].time - extendedSummary[i].time) / oneHour);      
+      let hours = Math.floor((extendedSummary[i + 1].time - extendedSummary[i].time) / oneHour);
       if (hours > 1) {
         for (let j = 1; j < hours; j++) {
           let newTime = extendedSummary[i].time + oneHour * j;
@@ -481,7 +481,7 @@ export class AddressGraphComponent implements OnChanges, OnDestroy {
         i += hours - 1;
       }
     }
-  
+
     return extendedSummary.reverse();
   }
 }

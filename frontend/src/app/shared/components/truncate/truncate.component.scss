@@ -4,6 +4,12 @@
   flex-direction: row;
   align-items: start;
   position: relative;
+  a {
+    &:hover {
+      color: var(--primary) !important;
+      text-decoration: none;
+    }
+  }
 
   .truncate-link {
     display: flex;

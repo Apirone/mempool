@@ -9,13 +9,16 @@
   flex-direction: row;
   justify-content: space-around;
   height: 50.5px;
+
   .shared-block {
     color: var(--transparent-fg);
     font-size: 12px;
   }
+
   .item {
     padding: 0 5px;
     width: 100%;
+
     &:nth-child(1) {
       display: none;
       @media (min-width: 485px) {
@@ -29,11 +32,13 @@
       }
     }
   }
+
   .card-text {
     font-size: 18px;
     margin: auto;
     position: relative;
     margin-bottom: 0.2rem;
+
     &.bigger {
       font-size: 20px;
       margin-bottom: 0;
@@ -50,6 +55,7 @@
   @media (min-width: 376px) {
     flex-direction: row;
   }
+
   .item {
     min-width: 120px;
     max-width: 150px;
@@ -58,7 +64,8 @@
     @media (min-width: 376px) {
       margin: 0 auto 0px;
     }
-    &:first-child{
+
+    &:first-child {
       display: none;
       @media (min-width: 485px) {
         display: block;
@@ -70,18 +77,22 @@
         display: block;
       }
     }
+
     &:last-child {
       margin-bottom: 0;
     }
   }
+
   .card-text {
     .skeleton-loader {
       width: 100%;
       display: block;
+
       &:first-child {
         margin: 10px auto 4px;
         max-width: 80px;
       }
+
       &:last-child {
         margin: 10px auto 0;
         max-width: 120px;
@@ -128,20 +139,19 @@
 
 .main-title {
   position: relative;
-  color: var(--fg);
-  opacity: var(--opacity);
-  margin-top: -13px;
-  font-size: 10px;
-  text-transform: uppercase;
+  color: #2F2E41;
+  font-size: 32px;
   font-weight: 500;
-  text-align: center;
-  padding-bottom: 3px;
+  text-align: left;
+  padding-bottom: 10px;
+  line-height: 1.18;
 }
 
 .card-wrapper {
   .card {
     height: auto !important;
   }
+
   .card-body {
     display: flex;
     flex: inherit;
@@ -167,6 +177,7 @@
 .symbol {
   font-size: 13px;
   white-space: nowrap;
+  color: var(--grey-text);
 }
 
 .epoch-progress, .halving-progress {
@@ -186,21 +197,26 @@
     &.behind {
       fill: var(--red);
     }
+
     &.mined {
-      fill: url(#diff-gradient);
+      fill: #5D8AB9;
     }
+
     &.ahead {
       fill: var(--success);
     }
 
     &.hover {
       fill: #535e84;
+
       &.behind {
         fill: #e94d86;
       }
+
       &.mined {
         fill: url(#diff-hover-gradient);
       }
+
       &.ahead {
         fill: #29d951;
       }
@@ -211,27 +227,32 @@
 .blocks-ahead {
   color: var(--green);
 }
+
 .blocks-behind {
   color: var(--red);
 }
 
 .halving-progress {
   position: relative;
+
   .background, .remaining {
     position: absolute;
     top: 0;
     bottom: 0;
     height: 100%;
   }
+
   .background {
     background: linear-gradient(to right, var(--primary), var(--mainnet-alt));
     left: 0;
     right: 0;
   }
+
   .remaining {
     background: var(--secondary);
     right: 0;
   }
+
   .label {
     position: relative;
     margin: auto;
@@ -248,8 +269,12 @@
 
 .toggler-option {
   text-decoration: none;
+
+  &:hover {
+    color: var(--link-color) !important;
+  }
 }
 
 .inactive {
-  color: var(--transparent-fg);
+  color: var(--grey-text);
 }

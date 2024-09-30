@@ -1,0 +1,88 @@
+.logo {
+  height: 2rem;
+}
+
+.black {
+  .logo__part {
+    fill: #2F2E41 !important;
+  }
+}
+
+.logo__part {
+  fill: #5D8AB9;
+}
+
+@-webkit-keyframes animate-svg-fill-1 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+@keyframes animate-svg-fill-1 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+.svg-elem-1 {
+  -webkit-animation: animate-svg-fill-1 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.1s both;
+          animation: animate-svg-fill-1 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.1s both;
+}
+
+@-webkit-keyframes animate-svg-fill-2 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+@keyframes animate-svg-fill-2 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+.svg-elem-2 {
+  -webkit-animation: animate-svg-fill-2 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.2s both;
+          animation: animate-svg-fill-2 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.2s both;
+}
+
+@-webkit-keyframes animate-svg-fill-3 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+@keyframes animate-svg-fill-3 {
+  0% {
+    fill: transparent;
+  }
+
+  100% {
+    fill: #5D8AB9;
+  }
+}
+
+.svg-elem-3 {
+  -webkit-animation: animate-svg-fill-3 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.30000000000000004s both;
+          animation: animate-svg-fill-3 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) 0.30000000000000004s both;
+}

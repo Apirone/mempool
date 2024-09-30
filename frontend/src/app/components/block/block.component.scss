@@ -8,6 +8,11 @@
     margin: 0rem;
     margin-right: 15px;
     line-height: 1;
+    a {
+      &:hover {
+        color: var(--primary) !important;
+      }
+    }
   }
 
   .alert-mempool {
@@ -40,7 +45,7 @@
     }
     .difference {
       margin-left: 0.5em;
-  
+
       &.positive {
         color: rgb(66, 183, 71);
       }
@@ -79,19 +84,6 @@ h1 {
       text-decoration: none;;
     }
   }
-}
-
-.miner-name {
-  margin-right: 4px;
-  vertical-align: top;
-}
-
-.pool-logo {
-  width: 25px;
-  height: 25px;
-  position: relative;
-  top: -1px;
-  margin-right: 2px;
 }
 
 .row {

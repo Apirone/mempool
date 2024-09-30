@@ -24,8 +24,6 @@ export class AccelerationTimelineComponent implements OnInit, OnChanges {
   accelerateRatio: number;
   useAbsoluteTime: boolean = false;
   interval: number;
-  firstSeenToAccelerated: number;
-  acceleratedToMined: number;
 
   tooltipPosition = null;
   hoverInfo: any = null;
@@ -37,6 +35,8 @@ export class AccelerationTimelineComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.acceleratedAt = this.tx.acceleratedAt ?? new Date().getTime() / 1000;
+    this.now = Math.floor(new Date().getTime() / 1000);
+    this.useAbsoluteTime = this.tx.status.block_time < this.now - 7 * 24 * 3600;
 
     this.miningService.getPools().subscribe(pools => {
       for (const pool of pools) {
@@ -44,8 +44,10 @@ export class AccelerationTimelineComponent implements OnInit, OnChanges {
       }
     });
 
-    this.updateTimes();
-    this.interval = window.setInterval(this.updateTimes.bind(this), 60000);
+    this.interval = window.setInterval(() => {
+      this.now = Math.floor(new Date().getTime() / 1000);
+      this.useAbsoluteTime = this.tx.status.block_time < this.now - 7 * 24 * 3600;
+    }, 60000);
   }
 
   ngOnChanges(changes): void {
@@ -60,13 +62,6 @@ export class AccelerationTimelineComponent implements OnInit, OnChanges {
     //     }
     //   }
     // }
-  }
-
-  updateTimes(): void {
-    this.now = Math.floor(new Date().getTime() / 1000);
-    this.useAbsoluteTime = this.tx.status.block_time < this.now - 7 * 24 * 3600;
-    this.firstSeenToAccelerated = Math.max(0, this.acceleratedAt - this.transactionTime);
-    this.acceleratedToMined = Math.max(0, this.tx.status.block_time - this.acceleratedAt);
   }
 
   ngOnDestroy(): void {

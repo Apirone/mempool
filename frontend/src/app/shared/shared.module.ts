@@ -35,7 +35,6 @@ import { LanguageSelectorComponent } from '../components/language-selector/langu
 import { FiatSelectorComponent } from '../components/fiat-selector/fiat-selector.component';
 import { RateUnitSelectorComponent } from '../components/rate-unit-selector/rate-unit-selector.component';
 import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component';
-import { AmountSelectorComponent } from '../components/amount-selector/amount-selector.component';
 import { BrowserOnlyDirective } from './directives/browser-only.directive';
 import { ServerOnlyDirective } from './directives/server-only.directive';
 import { ColoredPriceDirective } from './directives/colored-price.directive';
@@ -119,6 +118,7 @@ import { TwitterLogin } from '../components/twitter-login/twitter-login.componen
 import { BitcoinInvoiceComponent } from '../components/bitcoin-invoice/bitcoin-invoice.component';
 
 import { OnlyVsizeDirective, OnlyWeightDirective } from './components/weight-directives/weight-directives';
+import { AprLogoComponent } from "./apr-logo/apr-logo.component";
 
 @NgModule({
   declarations: [
@@ -132,7 +132,6 @@ import { OnlyVsizeDirective, OnlyWeightDirective } from './components/weight-dir
     FiatSelectorComponent,
     ThemeSelectorComponent,
     RateUnitSelectorComponent,
-    AmountSelectorComponent,
     ScriptpubkeyTypePipe,
     RelativeUrlPipe,
     NoSanitizePipe,
@@ -247,6 +246,7 @@ import { OnlyVsizeDirective, OnlyWeightDirective } from './components/weight-dir
     NgbCollapseModule,
     InfiniteScrollModule,
     FontAwesomeModule,
+    AprLogoComponent,
   ],
   providers: [
     BytesPipe,
@@ -280,7 +280,6 @@ import { OnlyVsizeDirective, OnlyWeightDirective } from './components/weight-dir
     FiatSelectorComponent,
     RateUnitSelectorComponent,
     ThemeSelectorComponent,
-    AmountSelectorComponent,
     ScriptpubkeyTypePipe,
     RelativeUrlPipe,
     Hex2asciiPipe,
@@ -365,7 +364,6 @@ import { OnlyVsizeDirective, OnlyWeightDirective } from './components/weight-dir
     TwitterWidgetComponent,
     TwitterLogin,
     BitcoinInvoiceComponent,
-    BitcoinsatoshisPipe,
 
     MempoolBlockOverviewComponent,
     ClockchainComponent,

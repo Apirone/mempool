@@ -19,6 +19,7 @@ import { Network, findOtherNetworks, getRegex, getTargetUrl, needBaseModuleChang
 })
 export class SearchFormComponent implements OnInit {
   @Input() hamburgerOpen = false;
+  @Output() inputFocused = new EventEmitter<boolean>();
   env: Env;
   network = '';
   assets: object = {};
@@ -66,6 +67,9 @@ export class SearchFormComponent implements OnInit {
     private relativeUrlPipe: RelativeUrlPipe,
     private elementRef: ElementRef
   ) {
+    this.focus$.subscribe(() => {
+      this.inputFocused.emit(true);
+    });
   }
 
   ngOnInit(): void {
@@ -199,7 +203,7 @@ export class SearchFormComponent implements OnInit {
           const otherNetworks = findOtherNetworks(searchText, this.network as any || 'mainnet', this.env);
           const liquidAsset = this.assets ? (this.assets[searchText] || []) : [];
           const pools = this.pools.filter(pool => pool["name"].toLowerCase().includes(searchText.toLowerCase())).slice(0, 10);
-          
+
           if (matchesDateTime && searchText.indexOf('/') !== -1) {
             searchText = searchText.replace(/\//g, '-');
           }
@@ -223,10 +227,14 @@ export class SearchFormComponent implements OnInit {
             nodes: lightningResults.nodes,
             channels: lightningResults.channels,
             liquidAsset: liquidAsset,
-            pools: pools
+            // pools: pools
           };
         })
       );
+  }
+
+  onBlur() {
+    this.inputFocused.emit(false);
   }
 
   handleKeyDown($event): void {

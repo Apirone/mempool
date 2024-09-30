@@ -16,8 +16,8 @@ export class FeesBoxComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   recommendedFees$: Observable<Recommendedfees>;
   themeSubscription: Subscription;
-  gradient = 'linear-gradient(to right, var(--skeleton-bg), var(--skeleton-bg))';
-  noPriority = 'var(--skeleton-bg)';
+  gradient = 'linear-gradient(to right, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12))';
+  noPriority = 'rgba(0, 0, 0, 0.12)';
   fees: Recommendedfees;
 
   constructor(
@@ -55,8 +55,8 @@ export class FeesBoxComponent implements OnInit, OnDestroy {
     feeLevelIndex = feeLevelIndex >= 0 ? feeLevels.length - feeLevelIndex : feeLevelIndex;
     const endColor = '#' + (this.themeService.mempoolFeeColors[feeLevelIndex - 1] || this.themeService.mempoolFeeColors[this.themeService.mempoolFeeColors.length - 1]);
 
-    this.gradient = `linear-gradient(to right, ${startColor}, ${endColor})`;
-    this.noPriority = startColor;
+    this.gradient = `#5D8AB9`;
+    this.noPriority = '#5D8AB9';
 
     this.cd.markForCheck();
   }

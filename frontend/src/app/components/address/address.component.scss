@@ -1,14 +1,31 @@
+.address {
+  &__data-qr {
+    align-items: center;
+  }
+}
+
+@media (max-width: 900px) {
+    .address {
+      &__data-qr {
+        flex-direction: column-reverse;
+        & .box {
+          width: 100%;
+        }
+      }
+    }
+  }
+
 .qr-wrapper {
-  position: absolute;
-  top: 30px;
-  right: 0px;
   border: solid 10px var(--active-bg);
   border-radius: 5px;
   background-color: #fff;
   padding: 10px;
   padding-bottom: 5px;
   display: block;
-  z-index: 99;
+}
+
+.box-wrap {
+  display: flex;
 }
 
 .qrSpan {
@@ -41,10 +58,10 @@
 }
 
 h1 {
-  margin: 0px;
   padding: 0px;
-  margin-right: 10px;
+  margin: 0px 10px 0px 0px;
   font-size: 1.9rem;
+  color: #2F2E41;
   @media (min-width: 576px) {
     font-size: 2rem;
     float: left;
@@ -120,5 +137,5 @@ h1 {
 }
 
 .inactive {
-  color: var(--transparent-fg);
+  color: var(--grey-text);
 }

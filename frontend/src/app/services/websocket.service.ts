@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { TransferState, makeStateKey } from '@angular/core';
 import { CacheService } from './cache.service';
 import { uncompressDeltaChange, uncompressTx } from '../shared/common.utils';
+import { environment } from "../../environments/environment";
 
 const OFFLINE_RETRY_AFTER_MS = 2000;
 const OFFLINE_PING_CHECK_AFTER_MS = 30000;
@@ -20,7 +21,7 @@ const initData = makeStateKey('/api/v1/init-data');
   providedIn: 'root'
 })
 export class WebsocketService {
-  private webSocketProtocol = (document.location.protocol === 'https:') ? 'wss:' : 'ws:';
+  private webSocketProtocol = !environment.production ? 'wss:' : (document.location.protocol === 'https:') ? 'wss:' : 'ws:';
   private webSocketUrl = this.webSocketProtocol + '//' + document.location.hostname + ':' + document.location.port + '{network}/api/v1/ws';
 
   private websocketSubject: WebSocketSubject<WebsocketResponse>;
@@ -48,6 +49,9 @@ export class WebsocketService {
     private transferState: TransferState,
     private cacheService: CacheService,
   ) {
+    // if (!environment.production) {
+    //   this.webSocketUrl = this.webSocketProtocol + this.stateService.env.MEMPOOL_WEBSITE_URL.replace(/^https?:\/\//, '')  + '{network}/api/v1/ws';
+    // }
     if (!this.stateService.isBrowser) {
       // @ts-ignore
       this.websocketSubject = { next: () => {}};
@@ -393,7 +397,7 @@ export class WebsocketService {
     }
 
     if (response.fees) {
-     this.stateService.recommendedFees$.next(response.fees); 
+     this.stateService.recommendedFees$.next(response.fees);
     }
 
     if (response.backendInfo) {

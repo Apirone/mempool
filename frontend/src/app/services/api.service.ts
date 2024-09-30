@@ -9,6 +9,7 @@ import { Conversion } from './price.service';
 import { StorageService } from './storage.service';
 import { WebsocketResponse } from '../interfaces/websocket.interface';
 import { TxAuditStatus } from '../components/transaction/transaction.component';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,12 @@ export class ApiService {
     if (!stateService.isBrowser) { // except when inside AU SSR process
       this.apiBaseUrl = this.stateService.env.NGINX_PROTOCOL + '://' + this.stateService.env.NGINX_HOSTNAME + ':' + this.stateService.env.NGINX_PORT;
     }
+
+
+    // if (!environment.production) {
+    //   this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
+    // }
+
     this.apiBasePath = ''; // assume mainnet by default
     this.stateService.networkChanged$.subscribe((network) => {
       this.apiBasePath = network && network !== this.stateService.env.ROOT_NETWORK ? '/' + network : '';
@@ -228,7 +235,7 @@ export class ApiService {
   }
 
   listFeaturedAssets$(network: string = 'liquid'): Observable<any[]> {
-    if (network === 'liquid') return this.httpClient.get<any[]>(this.apiBaseUrl + '/api/v1/assets/featured');
+    if (network === 'liquid') {return this.httpClient.get<any[]>(this.apiBaseUrl + '/api/v1/assets/featured');}
     return of([]);
   }
 
@@ -264,7 +271,7 @@ export class ApiService {
         return response;
       })
     );
-  }  
+  }
 
   getPoolStats$(slug: string): Observable<PoolStat> {
     return this.httpClient.get<PoolStat>(this.apiBaseUrl + this.apiBasePath + `/api/v1/mining/pool/${slug}`)
@@ -413,7 +420,7 @@ export class ApiService {
   }
 
   lightningSearch$(searchText: string): Observable<{ nodes: any[], channels: any[] }> {
-    let params = new HttpParams().set('searchText', searchText);
+    const params = new HttpParams().set('searchText', searchText);
     // Don't request the backend if searchText is less than 3 characters
     if (searchText.length < 3) {
       return of({ nodes: [], channels: [] });

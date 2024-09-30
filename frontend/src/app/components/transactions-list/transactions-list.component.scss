@@ -103,7 +103,7 @@ td.amount.large {
 	margin-top: 10px;
 }
 .assetBox {
-	background: color-mix(in srgb, var(--tertiary) 56%, transparent);
+	background: color-mix(in srgb, #D8E2F0 56%, transparent);
 
 }
 
@@ -169,10 +169,14 @@ h2 {
 	width: 0;
 	flex-grow: 1;
 	margin-inline-end: 2em;
+  &:hover {
+    color: var(--primary) !important;
+    text-decoration: none;
+  }
 }
 
 .vin-witness {
 	.witness-item {
-		overflow: hidden;	
+		overflow: hidden;
 	}
 }

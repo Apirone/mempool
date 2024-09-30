@@ -1,8 +1,7 @@
 .card-title {
-  color: var(--title-fg);
-  font-size: 10px;
+  color: #5D8AB9;
   margin-bottom: 4px;
-  font-size: 1rem;
+  font-size: 16px;
 
   margin-left: 10px;
 }
@@ -20,11 +19,12 @@
 }
 
 .inactive {
-  opacity: 0.2;
+  opacity: 0.4;
 }
 
 .active {
-  background-color: var(--active-bg);
+  background-color: #5D8AB9;
+  color: white;
 }
 
 .pool-logo {

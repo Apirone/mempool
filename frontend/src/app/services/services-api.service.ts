@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { StateService } from './state.service';
 import { StorageService } from './storage.service';
 import { MenuGroup } from '../interfaces/services.interface';
-import { Observable, of, ReplaySubject, tap, catchError, share, filter, switchMap, map } from 'rxjs';
+import { Observable, of, ReplaySubject, tap, catchError, share, filter, switchMap } from 'rxjs';
 import { IBackendInfo } from '../interfaces/websocket.interface';
 import { Acceleration, AccelerationHistoryParams } from '../interfaces/node-api.interface';
 import { AccelerationStats } from '../components/acceleration/acceleration-stats/acceleration-stats.component';
+import { environment } from '../../environments/environment';
 
 export type ProductType = 'enterprise' | 'community' | 'mining_pool' | 'custom';
 export interface IUser {
@@ -47,6 +48,11 @@ export class ServicesApiServices {
     if (!stateService.isBrowser) { // except when inside AU SSR process
       this.apiBaseUrl = this.stateService.env.NGINX_PROTOCOL + '://' + this.stateService.env.NGINX_HOSTNAME + ':' + this.stateService.env.NGINX_PORT;
     }
+
+    // if (!environment.production) {
+    //   this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
+    // }
+
     this.apiBasePath = ''; // assume mainnet by default
     this.stateService.networkChanged$.subscribe((network) => {
       this.apiBasePath = network ? '/' + network : '';
@@ -55,7 +61,7 @@ export class ServicesApiServices {
     if (this.stateService.env.GIT_COMMIT_HASH_MEMPOOL_SPACE) {
       this.getServicesBackendInfo$().subscribe(version => {
         this.stateService.servicesBackendInfo$.next(version);
-      })
+      });
     }
 
     this.getUserInfo$().subscribe();
@@ -83,7 +89,7 @@ export class ServicesApiServices {
         return of(null);
       }),
       share(),
-    )
+    );
   }
 
   /**
@@ -158,29 +164,6 @@ export class ServicesApiServices {
 
   getAccelerationHistory$(params: AccelerationHistoryParams): Observable<Acceleration[]> {
     return this.httpClient.get<Acceleration[]>(`${this.stateService.env.SERVICES_API}/accelerator/accelerations/history`, { params: { ...params } });
-  }
-
-  getAllAccelerationHistory$(params: AccelerationHistoryParams, limit?: number, findTxid?: string): Observable<Acceleration[]> {
-    const getPage$ = (page: number, accelerations: Acceleration[] = []): Observable<{ page: number, total: number, accelerations: Acceleration[] }> => {
-      return this.getAccelerationHistoryObserveResponse$({...params, page}).pipe(
-        map((response) => ({
-          page,
-          total: parseInt(response.headers.get('X-Total-Count'), 10) || 0,
-          accelerations: accelerations.concat(response.body || []),
-        })),
-        switchMap(({page, total, accelerations}) => {
-          if (accelerations.length >= Math.min(total, limit ?? Infinity) || (findTxid && accelerations.find((acc) => acc.txid === findTxid))) {
-            return of({ page, total, accelerations });
-          } else {
-            return getPage$(page + 1, accelerations);
-          }
-        }),
-      );
-    };
-
-    return getPage$(1).pipe(
-      map(({ accelerations }) => accelerations),
-    );
   }
 
   getAccelerationHistoryObserveResponse$(params: AccelerationHistoryParams): Observable<any> {

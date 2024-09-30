@@ -35,7 +35,7 @@
       <div class="row">
         @if (isMobile) {
           <div class="col-sm">
-            <table class="table table-borderless table-striped">
+            <table class="table table-bg">
               <tbody>
                   <ng-container *ngTemplateOutlet="detailsLeft"></ng-container>
                   <ng-container *ngTemplateOutlet="detailsRight"></ng-container>
@@ -44,14 +44,14 @@
           </div>
         } @else {
           <div class="col-sm">
-            <table class="table table-borderless table-striped">
+            <table class="table table-bg">
               <tbody>
                   <ng-container *ngTemplateOutlet="detailsLeft"></ng-container>
               </tbody>
             </table>
           </div>
           <div class="col-sm">
-            <table class="table table-borderless table-striped">
+            <table class="table table-bg">
               <tbody>
                   <ng-container *ngTemplateOutlet="detailsRight"></ng-container>
               </tbody>
@@ -272,11 +272,7 @@
                 <td [innerHTML]="'&lrm;' + (tx.locktime | number)"></td>
               </tr>
               <tr *ngIf="sigops != null">
-                <td><ng-container i18n="transaction.sigops|Transaction Sigops">Sigops</ng-container>
-                  <a class="info-link" [routerLink]="['/docs/faq/' | relativeUrl]" fragment="what-are-sigops">
-                    <fa-icon [icon]="['fas', 'info-circle']" [fixedWidth]="true"></fa-icon>
-                  </a>
-                </td>
+                <td><ng-container i18n="transaction.sigops|Transaction Sigops">Sigops</ng-container></td>
                 <td [innerHTML]="'&lrm;' + (sigops | number)"></td>
               </tr>
               <tr>
@@ -551,23 +547,23 @@
         <td class="td-width align-items-center align-middle" i18n="transaction.eta|Transaction ETA">ETA</td>
         <td>
           <ng-container *ngIf="(ETA$ | async) as eta; else etaSkeleton">
-            @if (network === 'liquid' || network === 'liquidtestnet') {
+            @if (eta.blocks >= 7) {
+              <span [class]="(!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) ? 'etaDeepMempool justify-content-end align-items-center' : ''">
+                <span i18n="transaction.eta.not-any-time-soon|Transaction ETA mot any time soon">Not any time soon</span>
+                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {
+                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>
+                }
+              </span>
+            } @else if (network === 'liquid' || network === 'liquidtestnet') {
               <app-time kind="until" [time]="eta.time" [fastRender]="false" [fixedRender]="true"></app-time>
             } @else {
-              <span [class]="(!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && notAcceleratedOnLoad) ? 'etaDeepMempool d-flex justify-content-between' : ''">
-                @if (eta.blocks >= 7) {
-                  <span i18n="transaction.eta.not-any-time-soon|Transaction ETA mot any time soon">Not any time soon</span>
-                } @else {
-                  <app-time kind="until" [time]="eta.time" [fastRender]="false" [fixedRender]="true"></app-time>
+              <span [class]="(!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) ? 'etaDeepMempool justify-content-end align-items-center' : ''">
+                <app-time kind="until" [time]="eta.time" [fastRender]="false" [fixedRender]="true"></app-time>
+                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {
+                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>
                 }
-                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && notAcceleratedOnLoad) {
-                  <div class="d-flex accelerate">
-                    <a class="btn btn-sm accelerateDeepMempool btn-small-height" [class.disabled]="!eligibleForAcceleration" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>
-                    <a *ngIf="!eligibleForAcceleration" href="https://mempool.space/accelerator#why-cant-accelerate" target="_blank" class="info-badges ml-1" i18n-ngbTooltip="Mempool Accelerator&trade; tooltip" ngbTooltip="This transaction cannot be accelerated">
-                        <fa-icon [icon]="['fas', 'info-circle']" [fixedWidth]="true"></fa-icon>
-                    </a>
-                  </div>
-                }
+              </span>
+              <span class="eta justify-content-end">
               </span>
             }
           </ng-container>
@@ -606,9 +602,9 @@
   @if (!isLoadingTx) {
     <tr>
       <td class="td-width" i18n="transaction.fee|Transaction fee">Fee</td>
-      <td class="text-wrap">{{ tx.fee | number }} <span class="symbol" i18n="shared.sats">sats</span>
+      <td class="text-wrap">{{ tx.fee | number }} <span class="symbol" i18n="shared.sat|sat">sat</span>
         @if (accelerationInfo?.bidBoost ?? tx.feeDelta > 0) {
-          <span class="oobFees" i18n-ngbTooltip="Acceleration Fees" ngbTooltip="Acceleration fees paid out-of-band"> +{{ accelerationInfo?.bidBoost ?? tx.feeDelta | number }} </span><span class="symbol" i18n="shared.sats">sats</span>
+          <span class="oobFees" i18n-ngbTooltip="Acceleration Fees" ngbTooltip="Acceleration fees paid out-of-band"> +{{ accelerationInfo?.bidBoost ?? tx.feeDelta | number }} </span><span class="symbol" i18n="shared.sat|sat">sat</span>
         }
         <span class="fiat"><app-fiat [blockConversion]="tx.price" [value]="tx.fee + ((accelerationInfo?.bidBoost ?? tx.feeDelta) || 0)"></app-fiat></span>
       </td>
@@ -670,7 +666,7 @@
 <ng-template #acceleratingRow>
   <tr>
     <td rowspan="2" colspan="2" style="padding: 0;">
-      <app-active-acceleration-box [acceleratedBy]="tx.acceleratedBy" [effectiveFeeRate]="tx.effectiveFeePerVsize" [accelerationInfo]="accelerationInfo" [miningStats]="miningStats" [hasCpfp]="hasCpfp" (toggleCpfp)="showCpfpDetails = !showCpfpDetails" [chartPositionLeft]="isMobile"></app-active-acceleration-box>
+      <app-active-acceleration-box [tx]="tx" [accelerationInfo]="accelerationInfo" [miningStats]="miningStats" [hasCpfp]="hasCpfp" (toggleCpfp)="showCpfpDetails = !showCpfpDetails" [chartPositionLeft]="isMobile"></app-active-acceleration-box>
     </td>
   </tr>
   <tr></tr>
@@ -683,17 +679,10 @@
         <td class="td-width" i18n="block.miner">Miner</td>
         @if (pool) {
           <td class="wrap-cell">
-            <a placement="bottom" [routerLink]="['/mining/pool' | relativeUrl, pool.slug]" class="badge" style="color: #FFF;padding:0;">
-              <span class="miner-name" *ngIf="pool.minerNames?.length > 1 && pool.minerNames[1] != ''">
-                @if (pool.minerNames[1].length > 16) {
-                  {{ pool.minerNames[1].slice(0, 15) }}…
-                } @else {
-                  {{ pool.minerNames[1] }}
-                }
-              </span>
+            <span class="badge" style="padding:0;">
               <img class="pool-logo" [src]="'/resources/mining-pools/' + pool.slug + '.svg'" onError="this.src = '/resources/mining-pools/default.svg'" [alt]="'Logo of ' + pool.name + ' mining pool'">
-              {{ pool.name }}
-            </a>
+              {{ pool.name  }}
+            </span>
           </td>
         } @else {
           <td>

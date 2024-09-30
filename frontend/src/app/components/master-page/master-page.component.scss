@@ -3,8 +3,31 @@
   position: -webkit-sticky;
   top: 0;
   width: 100%;
-  background-color: var(--bg);
   z-index: 100;
+  background: white;
+}
+
+.master-page {
+  &__main {
+    max-width: 600px;
+    margin: 0 auto 36px;
+    padding-left: 8px;
+
+    h1, p {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #6D6D7A;
+      margin: 0;
+    }
+  }
 }
 
 li.nav-item.active {
@@ -19,7 +42,50 @@ fa-icon {
   z-index: 100;
   min-height: 64px;
   width: 100%;
-  background-color: var(--nav-bg);
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: initial;
+
+  &__link-explorer {
+    color: #2C3E50 !important;
+    text-decoration: none !important;
+    font-size: 21px;
+    font-weight: 500;
+  }
+}
+
+@media (min-width: 650px) and (max-width: 900px) {
+  .search-form-container {
+    &-open {
+      max-width: 100% !important;
+      padding-left: 0 !important;
+    }
+  }
+  .navbar {
+    &__logo {
+      transition: 0.2s;
+
+      &-open {
+        margin-left: -250px;
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-form-container {
+    padding-left: 0 !important;
+    max-width: 100% !important;
+    margin-top: 16px;
+  }
 }
 
 li.nav-item {
@@ -44,9 +110,6 @@ li.nav-item {
 }
 
 @media (min-width: 992px) {
-  .navbar {
-    padding: 0rem 2rem;
-  }
   fa-icon {
     font-size: 1.2em;
   }
@@ -60,9 +123,7 @@ li.nav-item {
 }
 
 .navbar-nav {
-  background: var(--nav-bg);
   bottom: 0;
-  box-shadow: 0px 0px 15px 0px #000;
   flex-direction: row;
   left: 0;
   justify-content: space-between;
@@ -74,6 +135,7 @@ li.nav-item {
     position: relative;
     width: auto;
   }
+
   a {
     font-size: 0.8em;
     @media (min-width: 370px) {
@@ -125,10 +187,6 @@ li.nav-item {
   }
 }
 
-nav {
-  box-shadow: 0px 0px 15px 0px #000;
-}
-
 .connection-badge {
   position: absolute;
   top: 12px;
@@ -173,13 +231,14 @@ nav {
   align-items: center;
 }
 
-@media (min-width: 992px) {
-  .search-form-container {
-    width: 100%;
-    max-width: 500px;
-    padding-left: 15px;
-  }
+//@media (min-width: 992px) {
+.search-form-container {
+  width: 100%;
+  max-width: 600px;
+  padding-left: 15px;
 }
+
+//}
 .navbar-dark .navbar-nav .nav-link {
   color: var(--icon);
 }
@@ -190,6 +249,7 @@ nav {
   max-width: 140px;
   margin: auto;
   align-self: center;
+
   .rounded {
     border-radius: 5px;
   }
@@ -269,12 +329,14 @@ nav {
   text-align: center;
   align-self: center;
   cursor: pointer;
+
   &.anon {
     border: 1.5px solid lightgrey;
     color: lightgrey;
     border-radius: 5px;
   }
 }
+
 .profile_image {
   height: 35px;
   border-radius: 5px;
