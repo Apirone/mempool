@@ -1,23 +1,24 @@
-import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { ElectrsApiService } from '../../services/electrs-api.service';
-import { switchMap, tap, throttleTime, catchError, map, shareReplay, startWith, filter } from 'rxjs/operators';
-import { Observable, of, Subscription, asyncScheduler, EMPTY, combineLatest, forkJoin } from 'rxjs';
-import { StateService } from '../../services/state.service';
-import { SeoService } from '../../services/seo.service';
-import { WebsocketService } from '../../services/websocket.service';
-import { RelativeUrlPipe } from '../../shared/pipes/relative-url/relative-url.pipe';
-import { Acceleration, BlockAudit, BlockExtended, TransactionStripped } from '../../interfaces/node-api.interface';
-import { ApiService } from '../../services/api.service';
-import { BlockOverviewGraphComponent } from '../../components/block-overview-graph/block-overview-graph.component';
-import { detectWebGL } from '../../shared/graphs.utils';
-import { seoDescriptionNetwork } from '../../shared/common.utils';
-import { PriceService, Price } from '../../services/price.service';
-import { CacheService } from '../../services/cache.service';
-import { ServicesApiServices } from '../../services/services-api.service';
-import { PreloadService } from '../../services/preload.service';
-import { identifyPrioritizedTransactions } from '../../shared/transaction.utils';
+import {Component, OnInit, OnDestroy, ViewChildren, QueryList, ChangeDetectorRef} from '@angular/core';
+import {Location} from '@angular/common';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ElectrsApiService} from '../../services/electrs-api.service';
+import {switchMap, tap, throttleTime, catchError, map, shareReplay, startWith, filter} from 'rxjs/operators';
+import {Observable, of, Subscription, asyncScheduler, EMPTY, combineLatest, forkJoin} from 'rxjs';
+import {StateService} from '../../services/state.service';
+import {SeoService} from '../../services/seo.service';
+import {WebsocketService} from '../../services/websocket.service';
+import {RelativeUrlPipe} from '../../shared/pipes/relative-url/relative-url.pipe';
+import {Acceleration, BlockAudit, BlockExtended, TransactionStripped} from '../../interfaces/node-api.interface';
+import {ApiService} from '../../services/api.service';
+import {BlockOverviewGraphComponent} from '../../components/block-overview-graph/block-overview-graph.component';
+import {detectWebGL} from '../../shared/graphs.utils';
+import {seoDescriptionNetwork} from '../../shared/common.utils';
+import {PriceService, Price} from '../../services/price.service';
+import {CacheService} from '../../services/cache.service';
+import {ServicesApiServices} from '../../services/services-api.service';
+import {PreloadService} from '../../services/preload.service';
+import {identifyPrioritizedTransactions} from '../../shared/transaction.utils';
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-block',
@@ -81,7 +82,7 @@ export class BlockComponent implements OnInit, OnDestroy {
   childChangeSubscription: Subscription;
   auditPrefSubscription: Subscription;
   oobSubscription: Subscription;
-  
+
   priceSubscription: Subscription;
   blockConversion: Price;
 
@@ -103,6 +104,8 @@ export class BlockComponent implements OnInit, OnDestroy {
     private servicesApiService: ServicesApiServices,
     private cd: ChangeDetectorRef,
     private preloadService: PreloadService,
+    private meta: Meta,
+    private title: Title,
   ) {
     this.webGlEnabled = this.stateService.isBrowser && detectWebGL();
   }
@@ -173,7 +176,7 @@ export class BlockComponent implements OnInit, OnDestroy {
         let isBlockHeight = false;
         if (/^[0-9]+$/.test(blockHash)) {
           isBlockHeight = true;
-          this.stateService.markBlock$.next({ blockHeight: parseInt(blockHash, 10)});
+          this.stateService.markBlock$.next({blockHeight: parseInt(blockHash, 10)});
         } else {
           this.blockHash = blockHash;
         }
@@ -258,18 +261,14 @@ export class BlockComponent implements OnInit, OnDestroy {
         this.nextBlockHeight = block.height + 1;
         this.setNextAndPreviousBlockLink();
 
-        this.seoService.setTitle($localize`:@@block.component.browser-title:Block ${block.height}:BLOCK_HEIGHT:: ${block.id}:BLOCK_ID:`);
-        if( this.stateService.network === 'liquid' || this.stateService.network === 'liquidtestnet' ) {
-          this.seoService.setDescription($localize`:@@meta.description.liquid.block:See size, weight, fee range, included transactions, and more for Liquid${seoDescriptionNetwork(this.stateService.network)} block ${block.height}:BLOCK_HEIGHT: (${block.id}:BLOCK_ID:).`);
-        } else {
-          this.seoService.setDescription($localize`:@@meta.description.bitcoin.block:See size, weight, fee range, included transactions, audit (expected v actual), and more for Bitcoin${seoDescriptionNetwork(this.stateService.network)} block ${block.height}:BLOCK_HEIGHT: (${block.id}:BLOCK_ID:).`);
-        }
+        this.seoService.setTitle($localize`:@block.component.browser-title:Block: ${block.height}:BLOCK_HEIGHT:`);
+        this.seoService.setDescription(`Explore the details, including block size, weight, transaction fee range, and the number of included transactions for Bitcoin block ${block.height}.`);
         this.isLoadingBlock = false;
         this.setBlockSubsidy();
         if (block?.extras?.reward !== undefined) {
           this.fees = block.extras.reward / 100000000 - this.blockSubsidy;
         }
-        this.stateService.markBlock$.next({ blockHeight: this.blockHeight });
+        this.stateService.markBlock$.next({blockHeight: this.blockHeight});
         this.isLoadingOverview = true;
         this.overviewError = null;
 
@@ -280,7 +279,7 @@ export class BlockComponent implements OnInit, OnDestroy {
           this.loadedCacheBlock(cachedBlock);
         }
       }),
-      throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+      throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
       shareReplay(1)
     );
 
@@ -304,22 +303,22 @@ export class BlockComponent implements OnInit, OnDestroy {
         ]);
       })
     )
-    .subscribe(([transactions, blockAudit]) => {
-      if (transactions) {
-        this.strippedTransactions = transactions;
-      } else {
-        this.strippedTransactions = [];
-      }
-      this.blockAudit = blockAudit;
+      .subscribe(([transactions, blockAudit]) => {
+        if (transactions) {
+          this.strippedTransactions = transactions;
+        } else {
+          this.strippedTransactions = [];
+        }
+        this.blockAudit = blockAudit;
 
-      this.setupBlockAudit();
-      this.isLoadingOverview = false;
-    });
+        this.setupBlockAudit();
+        this.isLoadingOverview = false;
+      });
 
     this.accelerationsSubscription = this.block$.pipe(
       switchMap((block) => {
         return this.stateService.env.ACCELERATOR === true && block.height > 819500
-          ? this.servicesApiService.getAccelerationHistory$({ blockHeight: block.height })
+          ? this.servicesApiService.getAccelerationHistory$({blockHeight: block.height})
             .pipe(catchError(() => {
               return of([]);
             }))
@@ -337,27 +336,27 @@ export class BlockComponent implements OnInit, OnDestroy {
       switchMap((block) => this.apiService.getAccelerationsByHeight$(block.height)
         .pipe(
           map(accelerations => {
-            return { block, accelerations };
+            return {block, accelerations};
           }),
           catchError(() => {
-            return of({ block, accelerations: [] });
-        }))
+            return of({block, accelerations: []});
+          }))
       ),
-    ).subscribe(({ block, accelerations}) => {
-      let totalFees = 0;
-      for (const acc of accelerations) {
-        totalFees += acc.boost_cost;
-      }
-      this.oobFees = totalFees;
-      if (block && this.block && this.blockAudit && block?.height === this.block?.height) {
-        this.blockAudit.feeDelta = this.blockAudit.expectedFees > 0 ? (this.blockAudit.expectedFees - (this.block.extras.totalFees + this.oobFees)) / this.blockAudit.expectedFees : 0;
-      }
-    },
-    (error) => {
-      this.error = error;
-      this.isLoadingBlock = false;
-      this.isLoadingOverview = false;
-    });
+    ).subscribe(({block, accelerations}) => {
+        let totalFees = 0;
+        for (const acc of accelerations) {
+          totalFees += acc.boost_cost;
+        }
+        this.oobFees = totalFees;
+        if (block && this.block && this.blockAudit && block?.height === this.block?.height) {
+          this.blockAudit.feeDelta = this.blockAudit.expectedFees > 0 ? (this.blockAudit.expectedFees - (this.block.extras.totalFees + this.oobFees)) / this.blockAudit.expectedFees : 0;
+        }
+      },
+      (error) => {
+        this.error = error;
+        this.isLoadingBlock = false;
+        this.isLoadingOverview = false;
+      });
 
     this.networkChangedSubscription = this.stateService.networkChanged$
       .subscribe((network) => this.network = network);
@@ -436,7 +435,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       this.showDetails = false;
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { showDetails: false, view: this.mode },
+        queryParams: {showDetails: false, view: this.mode},
         queryParamsHandling: 'merge',
         fragment: 'block'
       });
@@ -444,7 +443,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       this.showDetails = true;
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { showDetails: true, view: this.mode },
+        queryParams: {showDetails: true, view: this.mode},
         queryParamsHandling: 'merge',
         fragment: 'details'
       });
@@ -463,24 +462,31 @@ export class BlockComponent implements OnInit, OnDestroy {
     return this.block && this.block.height > 681393 && (new Date().getTime() / 1000) < 1628640000;
   }
 
-  navigateToPreviousBlock(): void  {
+  navigateToPreviousBlock(): void {
     if (!this.block) {
       return;
     }
     const block = this.latestBlocks.find((b) => b.height === this.nextBlockHeight - 2);
     this.router.navigate([this.relativeUrlPipe.transform('/block/'),
-      block ? block.id : this.block.previousblockhash], { state: { data: { block, blockHeight: this.nextBlockHeight - 2 } } });
+      block ? block.id : this.block.previousblockhash], {
+      state: {
+        data: {
+          block,
+          blockHeight: this.nextBlockHeight - 2
+        }
+      }
+    });
   }
 
-  navigateToNextBlock(): void  {
+  navigateToNextBlock(): void {
     const block = this.latestBlocks.find((b) => b.height === this.nextBlockHeight);
     this.router.navigate([this.relativeUrlPipe.transform('/block/'),
-      block ? block.id : this.nextBlockHeight], { state: { data: { block, blockHeight: this.nextBlockHeight } } });
+      block ? block.id : this.nextBlockHeight], {state: {data: {block, blockHeight: this.nextBlockHeight}}});
   }
 
   setNextAndPreviousBlockLink(): void {
     if (this.latestBlock) {
-      if (!this.blockHeight){
+      if (!this.blockHeight) {
         this.showPreviousBlocklink = false;
       } else {
         this.showPreviousBlocklink = true;
@@ -538,7 +544,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
       if (blockAudit?.template) {
         // augment with locally calculated *de*prioritized transactions if possible
-        const { prioritized, deprioritized } = identifyPrioritizedTransactions(transactions);
+        const {prioritized, deprioritized} = identifyPrioritizedTransactions(transactions);
         // but if the local calculation produces returns unexpected results, don't use it
         let useLocalDeprioritized = deprioritized.length < (transactions.length * 0.1);
         for (const tx of prioritized) {
@@ -675,7 +681,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       this.blockGraphProjected.forEach(graph => {
         graph.destroy();
         if (this.isMobile && this.mode === 'actual') {
-          graph.setup(this.blockAudit?.transactions || this.strippedTransactions ||  []);
+          graph.setup(this.blockAudit?.transactions || this.strippedTransactions || []);
         } else {
           graph.setup(this.blockAudit?.template || []);
         }
@@ -702,7 +708,7 @@ export class BlockComponent implements OnInit, OnDestroy {
   changeMode(mode: 'projected' | 'actual'): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { showDetails: this.showDetails, view: mode },
+      queryParams: {showDetails: this.showDetails, view: mode},
       queryParamsHandling: 'merge',
       fragment: 'overview'
     });
@@ -734,7 +740,7 @@ export class BlockComponent implements OnInit, OnDestroy {
     this.stateService.hideAudit.next(this.auditModeEnabled);
 
     this.route.queryParams.subscribe(params => {
-      const queryParams = { ...params };
+      const queryParams = {...params};
       delete queryParams['audit'];
 
       let newUrl = this.router.url.split('?')[0];
@@ -742,7 +748,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       if (queryString) {
         newUrl += '?' + queryString;
       }
-  
+
       this.location.replaceState(newUrl);
     });
 
@@ -762,7 +768,7 @@ export class BlockComponent implements OnInit, OnDestroy {
     return this.route.queryParams.pipe(
       map(params => {
         this.auditParamEnabled = 'audit' in params;
-        
+
         return this.auditParamEnabled ? !(params['audit'] === 'false') : true;
       })
     );
@@ -819,7 +825,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   updateBlockReward(blockReward: number): void {
     if (this.fees === undefined) {
-       this.fees = blockReward;
+      this.fees = blockReward;
     }
   }
 }

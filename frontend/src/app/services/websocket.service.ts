@@ -49,9 +49,9 @@ export class WebsocketService {
     private transferState: TransferState,
     private cacheService: CacheService,
   ) {
-    // if (!environment.production) {
-    //   this.webSocketUrl = this.webSocketProtocol + this.stateService.env.MEMPOOL_WEBSITE_URL.replace(/^https?:\/\//, '')  + '{network}/api/v1/ws';
-    // }
+    if (!environment.production) {
+      this.webSocketUrl = this.webSocketProtocol + this.stateService.env.MEMPOOL_WEBSITE_URL.replace(/^https?:\/\//, '')  + '{network}/api/v1/ws';
+    }
     if (!this.stateService.isBrowser) {
       // @ts-ignore
       this.websocketSubject = { next: () => {}};

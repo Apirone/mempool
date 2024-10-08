@@ -1,6 +1,16 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ViewChild, ElementRef, Inject, ChangeDetectorRef } from '@angular/core';
-import { ElectrsApiService } from '../../services/electrs-api.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  Inject,
+  ChangeDetectorRef
+} from '@angular/core';
+import {ElectrsApiService} from '../../services/electrs-api.service';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {
   switchMap,
   filter,
@@ -15,28 +25,36 @@ import {
   repeat,
   take
 } from 'rxjs/operators';
-import { Transaction } from '../../interfaces/electrs.interface';
-import { of, merge, Subscription, Observable, Subject, from, throwError, combineLatest, BehaviorSubject } from 'rxjs';
-import { StateService } from '../../services/state.service';
-import { CacheService } from '../../services/cache.service';
-import { WebsocketService } from '../../services/websocket.service';
-import { AudioService } from '../../services/audio.service';
-import { ApiService } from '../../services/api.service';
-import { SeoService } from '../../services/seo.service';
-import { StorageService } from '../../services/storage.service';
-import { seoDescriptionNetwork } from '../../shared/common.utils';
-import { getTransactionFlags, getUnacceleratedFeeRate } from '../../shared/transaction.utils';
-import { Filter, TransactionFlags, toFilters } from '../../shared/filters.utils';
-import { BlockExtended, CpfpInfo, RbfTree, MempoolPosition, DifficultyAdjustment, Acceleration, AccelerationPosition } from '../../interfaces/node-api.interface';
-import { LiquidUnblinding } from './liquid-ublinding';
-import { RelativeUrlPipe } from '../../shared/pipes/relative-url/relative-url.pipe';
-import { PriceService } from '../../services/price.service';
-import { isFeatureActive } from '../../bitcoin.utils';
-import { ServicesApiServices } from '../../services/services-api.service';
-import { EnterpriseService } from '../../services/enterprise.service';
-import { ZONE_SERVICE } from '../../injection-tokens';
-import { MiningService, MiningStats } from '../../services/mining.service';
-import { ETA, EtaService } from '../../services/eta.service';
+import {Transaction} from '../../interfaces/electrs.interface';
+import {of, merge, Subscription, Observable, Subject, from, throwError, combineLatest, BehaviorSubject} from 'rxjs';
+import {StateService} from '../../services/state.service';
+import {CacheService} from '../../services/cache.service';
+import {WebsocketService} from '../../services/websocket.service';
+import {AudioService} from '../../services/audio.service';
+import {ApiService} from '../../services/api.service';
+import {SeoService} from '../../services/seo.service';
+import {StorageService} from '../../services/storage.service';
+import {seoDescriptionNetwork} from '../../shared/common.utils';
+import {getTransactionFlags, getUnacceleratedFeeRate} from '../../shared/transaction.utils';
+import {Filter, TransactionFlags, toFilters} from '../../shared/filters.utils';
+import {
+  BlockExtended,
+  CpfpInfo,
+  RbfTree,
+  MempoolPosition,
+  DifficultyAdjustment,
+  Acceleration,
+  AccelerationPosition
+} from '../../interfaces/node-api.interface';
+import {LiquidUnblinding} from './liquid-ublinding';
+import {RelativeUrlPipe} from '../../shared/pipes/relative-url/relative-url.pipe';
+import {PriceService} from '../../services/price.service';
+import {isFeatureActive} from '../../bitcoin.utils';
+import {ServicesApiServices} from '../../services/services-api.service';
+import {EnterpriseService} from '../../services/enterprise.service';
+import {ZONE_SERVICE} from '../../injection-tokens';
+import {MiningService, MiningStats} from '../../services/mining.service';
+import {ETA, EtaService} from '../../services/eta.service';
 
 interface Pool {
   id: number;
@@ -180,7 +198,8 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
     private etaService: EtaService,
     private cd: ChangeDetectorRef,
     @Inject(ZONE_SERVICE) private zoneService: any,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.enterpriseService.page();
@@ -235,19 +254,19 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingFirstSeen = true;
       }),
       switchMap((txid) => this.apiService.getTransactionTimes$([txid]).pipe(
-        retry({ count: 2, delay: 2000 }),
+        retry({count: 2, delay: 2000}),
         // Try again until we either get a valid response, or the transaction is confirmed
-        repeat({ delay: 2000 }),
+        repeat({delay: 2000}),
         filter((transactionTimes) => transactionTimes?.length && transactionTimes[0] > 0 && !this.tx.status?.confirmed),
         take(1),
       )),
     )
-    .subscribe((transactionTimes) => {
-      this.isLoadingFirstSeen = false;
-      if (transactionTimes?.length && transactionTimes[0]) {
-        this.transactionTime = transactionTimes[0];
-      }
-    });
+      .subscribe((transactionTimes) => {
+        this.isLoadingFirstSeen = false;
+        if (transactionTimes?.length && transactionTimes[0]) {
+          this.transactionTime = transactionTimes[0];
+        }
+      });
 
     this.fetchCpfpSubscription = this.fetchCpfp$
       .pipe(
@@ -255,19 +274,19 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
           this.apiService
             .getCpfpinfo$(txId)
             .pipe(retryWhen((errors) => errors.pipe(
-              mergeMap((error) => {
-                if (!this.tx?.status || this.tx.status.confirmed) {
-                  return throwError(error);
-                } else {
-                  return of(null);
-                }
-              }),
-              delay(2000)
-            )),
-            catchError(() => {
-              return of(null);
-            })
-          )
+                mergeMap((error) => {
+                  if (!this.tx?.status || this.tx.status.confirmed) {
+                    return throwError(error);
+                  } else {
+                    return of(null);
+                  }
+                }),
+                delay(2000)
+              )),
+              catchError(() => {
+                return of(null);
+              })
+            )
         ),
         catchError(() => {
           return of(null);
@@ -278,63 +297,63 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.fetchRbfSubscription = this.fetchRbfHistory$
-    .pipe(
-      switchMap((txId) =>
-        this.apiService
-          .getRbfHistory$(txId)
-      ),
-      catchError(() => {
-        return of(null);
-      })
-    ).subscribe((rbfResponse) => {
-      this.rbfInfo = rbfResponse?.replacements;
-      this.rbfReplaces = rbfResponse?.replaces || null;
-    });
+      .pipe(
+        switchMap((txId) =>
+          this.apiService
+            .getRbfHistory$(txId)
+        ),
+        catchError(() => {
+          return of(null);
+        })
+      ).subscribe((rbfResponse) => {
+        this.rbfInfo = rbfResponse?.replacements;
+        this.rbfReplaces = rbfResponse?.replaces || null;
+      });
 
     this.fetchCachedTxSubscription = this.fetchCachedTx$
-    .pipe(
-      tap(() => {
-        this.loadingCachedTx = true;
-      }),
-      switchMap((txId) =>
-        this.apiService
-          .getRbfCachedTx$(txId)
-      ),
-      catchError(() => {
-        return of(null);
-      })
-    ).subscribe((tx) => {
-      this.loadingCachedTx = false;
-      if (!tx) {
-        this.seoService.logSoft404();
-        return;
-      }
-      this.seoService.clearSoft404();
-
-      if (!this.tx) {
-        this.tx = tx;
-        this.setFeatures();
-        this.isCached = true;
-        if (tx.fee === undefined) {
-          this.tx.fee = 0;
+      .pipe(
+        tap(() => {
+          this.loadingCachedTx = true;
+        }),
+        switchMap((txId) =>
+          this.apiService
+            .getRbfCachedTx$(txId)
+        ),
+        catchError(() => {
+          return of(null);
+        })
+      ).subscribe((tx) => {
+        this.loadingCachedTx = false;
+        if (!tx) {
+          this.seoService.logSoft404();
+          return;
         }
-        this.tx.feePerVsize = tx.fee / (tx.weight / 4);
-        this.isLoadingTx = false;
-        this.error = undefined;
-        this.waitingForTransaction = false;
-        this.graphExpanded = false;
-        this.transactionTime = tx.firstSeen || 0;
-        this.setupGraph();
+        this.seoService.clearSoft404();
 
-        this.fetchRbfHistory$.next(this.tx.txid);
-        this.txRbfInfoSubscription = this.stateService.txRbfInfo$.subscribe((rbfInfo) => {
-          if (this.tx) {
-            this.rbfInfo = rbfInfo;
+        if (!this.tx) {
+          this.tx = tx;
+          this.setFeatures();
+          this.isCached = true;
+          if (tx.fee === undefined) {
+            this.tx.fee = 0;
           }
-        });
-        this.txChanged$.next(true);
-      }
-    });
+          this.tx.feePerVsize = tx.fee / (tx.weight / 4);
+          this.isLoadingTx = false;
+          this.error = undefined;
+          this.waitingForTransaction = false;
+          this.graphExpanded = false;
+          this.transactionTime = tx.firstSeen || 0;
+          this.setupGraph();
+
+          this.fetchRbfHistory$.next(this.tx.txid);
+          this.txRbfInfoSubscription = this.stateService.txRbfInfo$.subscribe((rbfInfo) => {
+            if (this.tx) {
+              this.rbfInfo = rbfInfo;
+            }
+          });
+          this.txChanged$.next(true);
+        }
+      });
 
     this.fetchAccelerationSubscription = this.fetchAcceleration$.pipe(
       filter(() => this.stateService.env.ACCELERATOR === true),
@@ -343,14 +362,14 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setIsAccelerated();
       }),
       switchMap((blockHeight: number) => {
-        return this.servicesApiService.getAccelerationHistory$({ blockHeight }).pipe(
+        return this.servicesApiService.getAccelerationHistory$({blockHeight}).pipe(
           switchMap((accelerationHistory: Acceleration[]) => {
             if (this.tx.acceleration && !accelerationHistory.length) { // If the just mined transaction was accelerated, but services backend did not return any acceleration data, retry
               return throwError('retry');
             }
             return of(accelerationHistory);
           }),
-          retry({ count: 3, delay: 2000 }),
+          retry({count: 3, delay: 2000}),
           catchError(() => {
             return of([]);
           })
@@ -365,7 +384,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
               acceleration.acceleratedFeeRate = Math.max(acceleration.effectiveFee, acceleration.effectiveFee + boostCost) / acceleration.effectiveVsize;
               acceleration.boost = boostCost;
               this.tx.acceleratedAt = acceleration.added;
-              this.accelerationInfo = acceleration;  
+              this.accelerationInfo = acceleration;
             } else {
               this.tx.feeDelta = undefined;
             }
@@ -381,11 +400,11 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
       tap(() => {
         this.pool = null;
       }),
-      switchMap(({ hash, height }) => {
+      switchMap(({hash, height}) => {
         const foundBlock = this.cacheService.getCachedBlock(height) || null;
         return foundBlock ? of(foundBlock.extras.pool) : this.apiService.getBlock$(hash).pipe(
           map(block => block.extras.pool),
-          retry({ count: 3, delay: 2000 }),
+          retry({count: 3, delay: 2000}),
           catchError(() => of(null))
         );
       }),
@@ -401,12 +420,12 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
       tap(() => {
         this.auditStatus = null;
       }),
-      switchMap(({ hash, height, txid }) => {
+      switchMap(({hash, height, txid}) => {
         const auditAvailable = this.isAuditAvailable(height);
         const isCoinbase = this.tx.vin.some(v => v.is_coinbase);
         const fetchAudit = auditAvailable && !isCoinbase;
         if (fetchAudit) {
-        // If block audit is already cached, use it to get transaction audit
+          // If block audit is already cached, use it to get transaction audit
           const blockAuditLoaded = this.apiService.getBlockAuditLoaded(hash);
           if (blockAuditLoaded) {
             return this.apiService.getBlockAudit$(hash).pipe(
@@ -431,14 +450,14 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
             )
           } else {
             return this.apiService.getBlockTxAudit$(hash, txid).pipe(
-              retry({ count: 3, delay: 2000 }),
+              retry({count: 3, delay: 2000}),
               catchError(() => {
                 return of(null);
               })
             )
           }
         } else {
-          return of(isCoinbase ? { coinbase: true } : null);
+          return of(isCoinbase ? {coinbase: true} : null);
         }
       }),
     ).subscribe(auditStatus => {
@@ -543,7 +562,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
             this.router.navigate([this.relativeUrlPipe.transform('/tx'), this.txId], {
               queryParamsHandling: 'merge',
               preserveFragment: true,
-              queryParams: { mode: 'details' },
+              queryParams: {mode: 'details'},
               replaceUrl: true,
             });
           }
@@ -552,7 +571,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
           );
           const network = this.stateService.network === 'liquid' || this.stateService.network === 'liquidtestnet' ? 'Liquid' : 'Bitcoin';
           const seoDescription = seoDescriptionNetwork(this.stateService.network);
-          this.seoService.setDescription($localize`:@@meta.description.bitcoin.transaction:Get real-time status, addresses, fees, script info, and more for ${network}${seoDescription} transaction with txid ${this.txId}.`);
+          this.seoService.setDescription(`See status, addresses, script info, fees, and more for Bitcoin transaction ${this.txId}.`);
           this.resetTransaction();
           return merge(
             of(true),
@@ -629,7 +648,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           } else {
             this.fetchAcceleration$.next(tx.status.block_height);
-            this.fetchMiningInfo$.next({ hash: tx.status.block_hash, height: tx.status.block_height, txid: tx.txid });
+            this.fetchMiningInfo$.next({hash: tx.status.block_hash, height: tx.status.block_height, txid: tx.txid});
             this.transactionTime = 0;
           }
 
@@ -667,7 +686,9 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
             })
           ).subscribe();
 
-          setTimeout(() => { this.applyFragment(); }, 0);
+          setTimeout(() => {
+            this.applyFragment();
+          }, 0);
 
           this.cd.detectChanges();
         },
@@ -691,14 +712,14 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.pool = block.extras.pool;
         this.txChanged$.next(true);
-        this.stateService.markBlock$.next({ blockHeight: block.height });
+        this.stateService.markBlock$.next({blockHeight: block.height});
         if (this.tx.acceleration || (this.accelerationInfo && ['accelerating', 'completed_provisional', 'completed'].includes(this.accelerationInfo.status))) {
           this.audioService.playSound('wind-chimes-harp-ascend');
         } else {
           this.audioService.playSound('magic');
         }
         this.fetchAcceleration$.next(block.height);
-        this.fetchMiningInfo$.next({ hash: block.id, height: block.height, txid: this.tx.txid });
+        this.fetchMiningInfo$.next({hash: block.id, height: block.height, txid: this.tx.txid});
       }
     });
 
@@ -860,7 +881,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sigops = this.cpfpInfo.sigops;
       this.adjustedVsize = this.cpfpInfo.adjustedVsize;
     }
-    this.hasCpfp =!!(this.cpfpInfo && relatives.length);
+    this.hasCpfp = !!(this.cpfpInfo && relatives.length);
     this.hasEffectiveFeeRate = hasRelatives || (this.tx.effectiveFeePerVsize && this.tx.effectiveFeePerVsize !== (this.tx.fee / (this.tx.weight / 4)) && this.tx.effectiveFeePerVsize !== (this.tx.fee / Math.ceil(this.tx.weight / 4)));
   }
 
@@ -999,7 +1020,7 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stateService.hideFlow.next(!showFlow);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { showFlow: showFlow },
+      queryParams: {showFlow: showFlow},
       queryParamsHandling: 'merge',
       fragment: 'flow'
     });
@@ -1042,7 +1063,9 @@ export class TransactionComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.graphContainer?.nativeElement?.clientWidth) {
           this.graphWidth = this.graphContainer.nativeElement.clientWidth;
         } else {
-          setTimeout(() => { this.setGraphSize(); }, 1);
+          setTimeout(() => {
+            this.setGraphSize();
+          }, 1);
         }
       }, 1);
     }

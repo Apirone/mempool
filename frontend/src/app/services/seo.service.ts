@@ -48,7 +48,7 @@ export class SeoService {
   }
 
   setTitle(newTitle: string): void {
-    this.titleService.setTitle(newTitle + ' - ' + this.getTitle());
+    this.titleService.setTitle(newTitle + ' - Bitcoin Explorer via Apirone');
     this.metaService.updateTag({ property: 'og:title', content: newTitle});
     this.metaService.updateTag({ name: 'twitter:title', content: newTitle});
     this.metaService.updateTag({ property: 'og:meta:ready', content: 'ready'});
@@ -71,6 +71,7 @@ export class SeoService {
   }
 
   setDescription(newDescription: string): void {
+    console.log('startUpdate')
     this.metaService.updateTag({ name: 'description', content: newDescription});
     this.metaService.updateTag({ name: 'twitter:description', content: newDescription});
     this.metaService.updateTag({ property: 'og:description', content: newDescription});

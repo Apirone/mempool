@@ -32,9 +32,9 @@ export class ApiService {
     }
 
 
-    // if (!environment.production) {
-    //   this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
-    // }
+    if (!environment.production) {
+      this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
+    }
 
     this.apiBasePath = ''; // assume mainnet by default
     this.stateService.networkChanged$.subscribe((network) => {
