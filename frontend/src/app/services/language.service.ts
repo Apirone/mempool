@@ -12,7 +12,7 @@ export class LanguageService {
     @Inject(DOCUMENT) private document: Document,
     @Inject(LOCALE_ID) private locale: string,
   ) {
-    this.language = getLocaleId(this.locale).substring(0, 2);
+    // this.language = getLocaleId(this.locale).substring(0, 2);
   }
 
   getLanguage(): string {

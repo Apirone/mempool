@@ -50,10 +50,14 @@ fa-icon {
   flex-wrap: initial;
 
   &__link-explorer {
-    color: #2C3E50 !important;
     text-decoration: none !important;
-    font-size: 21px;
-    font-weight: 500;
+    transform: translateY(12px);
+    margin-left: 12px;
+    sup {
+      font-size: 21px;
+      font-weight: 500;
+      color: #2C3E50 !important;
+    }
   }
 }
 
