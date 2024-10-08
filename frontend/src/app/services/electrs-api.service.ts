@@ -25,9 +25,9 @@ export class ElectrsApiService {
       this.apiBaseUrl = this.stateService.env.NGINX_PROTOCOL + '://' + this.stateService.env.NGINX_HOSTNAME + ':' + this.stateService.env.NGINX_PORT;
     }
 
-    if (!environment.production) {
-      this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
-    }
+    // if (!environment.production) {
+    //   this.apiBaseUrl = stateService.env.MEMPOOL_WEBSITE_URL;
+    // }
 
     this.apiBasePath = ''; // assume mainnet by default
     this.stateService.networkChanged$.subscribe((network) => {
