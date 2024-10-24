@@ -21,7 +21,8 @@ export class LanguageService {
 
   stripLanguageFromUrl(urlPath: string) {
     let rawUrlPath = urlPath ? urlPath : document.location.pathname;
-    const urlLanguage = this.document.location.pathname.split('/')[1];
+    const urlLanguage = 'en';
+    // const urlLanguage = this.document.location.pathname.split('/')[1];
     if (this.languages.map((lang) => lang.code).indexOf(urlLanguage) != -1) {
       rawUrlPath = rawUrlPath.substring(3);
     }
@@ -29,7 +30,8 @@ export class LanguageService {
   }
 
   getLanguageForUrl(): string {
-    return this.language === 'en' ? '' : '/' + this.language;
+    return '/';
+    // return this.language === 'en' ? '' : '/' + this.language;
   }
 
   setLanguage(language: string): void {

@@ -25,10 +25,10 @@ const routes: Routes = [
         children: [],
         component: TransactionPreviewComponent
       },
-      {
-        path: 'mining/pool/:slug',
-        component: PoolPreviewComponent
-      },
+      // {
+      //   path: 'mining/pool/:slug',
+      //   component: PoolPreviewComponent
+      // },
       {
         path: 'lightning',
         loadChildren: () => import('./lightning/lightning-previews.module').then(m => m.LightningPreviewsModule),

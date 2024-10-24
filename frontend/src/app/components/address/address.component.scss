@@ -4,6 +4,32 @@
   }
 }
 
+td {
+  position: relative;
+  border: none !important;
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 80%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #d8e2f0;
+  }
+}
+
+.spacer {
+  &:after {
+    display: none !important;
+  }
+}
+
 @media (max-width: 900px) {
     .address {
       &__data-qr {

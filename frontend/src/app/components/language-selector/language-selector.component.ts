@@ -29,8 +29,10 @@ export class LanguageSelectorComponent implements OnInit {
 
   changeLanguage() {
     const newLang = this.languageForm.get('language').value;
-    this.languageService.setLanguage(newLang);
+    this.languageService.setLanguage('en');
+    // this.languageService.setLanguage(newLang);
     const rawUrlPath = this.languageService.stripLanguageFromUrl(null);
-    this.document.location.href = (newLang !== 'en' ? `/${newLang}` : '') + rawUrlPath;
+    this.document.location.href = ('/en') + rawUrlPath;
+    // this.document.location.href = (newLang !== 'en' ? `/${newLang}` : '') + rawUrlPath;
   }
 }

@@ -32,22 +32,22 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      {
-        path: 'mining/pool/:slug',
-        data: { networks: ['bitcoin'] },
-        component: PoolComponent,
-      },
-      {
-        path: 'mining',
-        data: { networks: ['bitcoin'] },
-        component: StartComponent,
-        children: [
-          {
-            path: '',
-            component: MiningDashboardComponent,
-          },
-        ]
-      },
+      // {
+      //   path: 'mining/pool/:slug',
+      //   data: { networks: ['bitcoin'] },
+      //   component: PoolComponent,
+      // },
+      // {
+      //   path: 'mining',
+      //   data: { networks: ['bitcoin'] },
+      //   component: StartComponent,
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: MiningDashboardComponent,
+      //     },
+      //   ]
+      // },
       {
         path: 'acceleration',
         data: { networks: ['bitcoin'], networkSpecific: true, onlySubnet: [''] },
