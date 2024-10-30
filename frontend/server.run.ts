@@ -8,7 +8,7 @@ import * as path from 'path';
 const {readFileSync, existsSync} = require('fs');
 const {createProxyMiddleware} = require('http-proxy-middleware');
 
-const template = fs.readFileSync(path.join(process.cwd(), 'dist/mempool/browser/en-US/', 'index.html')).toString();
+const template = fs.readFileSync(path.join(process.cwd(), 'dist/mempool/browser/', 'index.html')).toString();
 const win = domino.createWindow(template);
 
 // @ts-ignore
