@@ -12,6 +12,15 @@
     margin-bottom: 8px;
   }
 
+  &__mempool {
+    display: block;
+    color: var(--grey-text);
+    text-decoration: none;
+    img {
+      transform: translateY(-2px);
+    }
+  }
+
   &__link {
     a {
       color: #2F2E41;
