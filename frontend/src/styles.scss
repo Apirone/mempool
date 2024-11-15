@@ -394,6 +394,10 @@ main {
   justify-content: space-between;
 }
 
+.tlite {
+  -webkit-opacity: 0.9;
+}
+
 .title-address, .title-asset {
   color: var(--fg);
   padding-bottom: 10px;
@@ -936,15 +940,18 @@ h1, h2, h3 {
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
+
   span {
     font-weight: 600;
   }
+
   a {
     &:hover {
       color: var(--primary) !important;
       text-decoration: none;
     }
   }
+
   @media (min-width: 676px) {
     flex-direction: row;
   }

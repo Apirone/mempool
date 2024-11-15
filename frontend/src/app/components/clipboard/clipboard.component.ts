@@ -33,8 +33,11 @@ export class ClipboardComponent implements AfterViewInit {
     this.clipboard.on('success', () => {
       tlite.show(this.buttonWrapper.nativeElement);
       setTimeout(() => {
+        console.log(document.querySelector('.title-n'));
+      }, 2000)
+      setTimeout(() => {
         tlite.hide(this.buttonWrapper.nativeElement);
-      }, 1000);
+      }, 100000);
     });
   }
 

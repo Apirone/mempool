@@ -12,9 +12,9 @@
         <th class="height text-left" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}" i18n="latest-blocks.height">Height</th>
         <th class="pool text-left" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}" i18n="mining.pool-name"
           i18n-ngbTooltip="mining.pool-name" ngbTooltip="Pool" placement="bottom" #miningpool [disableTooltip]="!isEllipsisActive(miningpool)">Pool</th>
-<!--        <th  class="health text-right" i18n="latest-blocks.health" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}"-->
-<!--          i18n-ngbTooltip="latest-blocks.health" ngbTooltip="Health" placement="bottom" #health [disableTooltip]="!isEllipsisActive(health)">Health</th>-->
-        <th class="fees text-right" i18n="latest-blocks.fees" [class]="indexingAvailable ? '' : 'legacy'">Fees</th>
+        <th  class="health text-right" i18n="latest-blocks.health" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}"
+          i18n-ngbTooltip="latest-blocks.health" ngbTooltip="Health" placement="bottom" #health [disableTooltip]="!isEllipsisActive(health)">Health</th>
+<!--        <th class="fees text-right" i18n="latest-blocks.fees" [class]="indexingAvailable ? '' : 'legacy'">Fees</th>-->
         <th class="reward text-right" i18n="latest-blocks.reward" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}"
           i18n-ngbTooltip="latest-blocks.reward" ngbTooltip="Reward" placement="bottom" #reward [disableTooltip]="!isEllipsisActive(reward)">Reward</th>
       </thead>
@@ -25,11 +25,11 @@
           </td>
           <td  class="pool text-left" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}">
             <div *ngIf="indexingAvailable" class="tooltip-custom">
-              <a class="clear-link" [routerLink]="['/mining/pool' | relativeUrl, block.extras.pool.slug]">
+              <span class="clear-link">
                 <img width="22" height="22" src="{{ block.extras.pool['logo'] }}"
                   onError="this.onerror=null; this.src = '/resources/mining-pools/default.svg'" [alt]="'Logo of ' + block.extras.pool.name + ' mining pool'">
                 <span class="pool-name">{{ block.extras.pool.name }}</span>
-              </a>
+              </span>
               <span *ngIf="!widget" class="tooltiptext badge badge-secondary scriptmessage">{{ block.extras.coinbaseRaw | hex2ascii }}</span>
             </div>
             <div *ngIf="!indexingAvailable" class="tooltip-custom">
@@ -39,23 +39,23 @@
               <span *ngIf="!widget" class="tooltiptext badge badge-secondary scriptmessage">{{ block.extras.coinbaseRaw | hex2ascii }}</span>
             </div>
           </td>
-<!--          <td class="health text-right" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}">-->
-<!--            <a-->
-<!--              *ngIf="block?.extras?.matchRate != null; else nullHealth"-->
-<!--              class="health-badge badge"-->
-<!--              [class.badge-success]="block.extras.matchRate >= 99"-->
-<!--              [class.badge-warning]="block.extras.matchRate >= 75 && block.extras.matchRate < 99"-->
-<!--              [class.badge-danger]="block.extras.matchRate < 75"-->
-<!--              [routerLink]="block.extras.matchRate != null ? ['/block/' | relativeUrl, block.id] : null"-->
-<!--              [state]="{ data: { block: block } }"-->
-<!--            >{{ block.extras.matchRate }}%</a>-->
-<!--            <ng-template #nullHealth>-->
-<!--              <span class="health-badge badge badge-secondary" i18n="unknown">Unknown</span>-->
-<!--            </ng-template>-->
-<!--          </td>-->
-          <td class="fees text-right" [class]="indexingAvailable ? '' : 'legacy'">
-            <app-amount [satoshis]="block.extras.totalFees" [noFiat]="true" digitsInfo="1.2-2"></app-amount>
+          <td class="health text-right" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}">
+            <a
+              *ngIf="block?.extras?.matchRate != null; else nullHealth"
+              class="health-badge badge"
+              [class.badge-success]="block.extras.matchRate >= 99"
+              [class.badge-warning]="block.extras.matchRate >= 75 && block.extras.matchRate < 99"
+              [class.badge-danger]="block.extras.matchRate < 75"
+              [routerLink]="block.extras.matchRate != null ? ['/block/' | relativeUrl, block.id] : null"
+              [state]="{ data: { block: block } }"
+            >{{ block.extras.matchRate }}%</a>
+            <ng-template #nullHealth>
+              <span class="health-badge badge badge-secondary" i18n="unknown">Unknown</span>
+            </ng-template>
           </td>
+<!--          <td class="fees text-right" [class]="indexingAvailable ? '' : 'legacy'">-->
+<!--            <app-amount [satoshis]="block.extras.totalFees" [noFiat]="true" digitsInfo="1.2-2"></app-amount>-->
+<!--          </td>-->
           <td class="reward text-right" [ngClass]="{'widget': widget, 'legacy': !isMempoolModule}">
             <app-amount [satoshis]="block.extras.reward" [noFiat]="true" digitsInfo="1.2-2"></app-amount>
           </td>

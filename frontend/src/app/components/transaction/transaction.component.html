@@ -125,33 +125,33 @@
     </ng-template>
 
     <!-- Accelerator -->
-    <ng-container *ngIf="!tx?.status?.confirmed && showAccelerationSummary && (ETA$ | async) as eta;">
-      <br>
-      <div class="title float-left mb-1">
-        <h2><a [href]="[ isMempoolSpaceBuild ? '/accelerator' : 'https://mempool.space/accelerator']" [target]="isMempoolSpaceBuild ? '' : 'blank'"><app-svg-images name="accelerator" [height]="isMobile ? '35px' : '45px'"></app-svg-images></a></h2>
-      </div>
-      <button type="button" class="btn btn-outline-info accelerator-toggle btn-sm float-right" [class.hide-on-mobile]="hasAccelerationDetails" (click)="closeAccelerator()" i18n="accelerator.hide">Hide accelerator</button>
-      <button *ngIf="hasAccelerationDetails" class="btn btn-sm btn-outline-info details-button float-right ml-2" (click)="showAccelerationDetails = !showAccelerationDetails" i18n="transaction.details|Transaction Details">Details</button>
+<!--    <ng-container *ngIf="!tx?.status?.confirmed && showAccelerationSummary && (ETA$ | async) as eta;">-->
+<!--      <br>-->
+<!--      <div class="title float-left mb-1">-->
+<!--        <h2><a [href]="[ isMempoolSpaceBuild ? '/accelerator' : 'https://mempool.space/accelerator']" [target]="isMempoolSpaceBuild ? '' : 'blank'"><app-svg-images name="accelerator" [height]="isMobile ? '35px' : '45px'"></app-svg-images></a></h2>-->
+<!--      </div>-->
+<!--      <button type="button" class="btn btn-outline-info accelerator-toggle btn-sm float-right" [class.hide-on-mobile]="hasAccelerationDetails" (click)="closeAccelerator()" i18n="accelerator.hide">Hide accelerator</button>-->
+<!--      <button *ngIf="hasAccelerationDetails" class="btn btn-sm btn-outline-info details-button float-right ml-2" (click)="showAccelerationDetails = !showAccelerationDetails" i18n="transaction.details|Transaction Details">Details</button>-->
 
-      <div class="clearfix"></div>
+<!--      <div class="clearfix"></div>-->
 
-      <app-accelerate-checkout
-        *ngIf="(da$ | async) as da;"
-        [cashappEnabled]="cashappEligible"
-        [advancedEnabled]="true"
-        [tx]="tx"
-        [accelerating]="isAcceleration"
-        [eta]="eta"
-        [miningStats]="miningStats"
-        [scrollEvent]="scrollIntoAccelPreview"
-        [showDetails]="showAccelerationDetails"
-        [noCTA]="true"
-        (hasDetails)="setHasAccelerationDetails($event)"
-        (completed)="onAccelerationCompleted()"
-        (unavailable)="eligibleForAcceleration = false"
-        class="h-100 w-100"
-      ></app-accelerate-checkout>
-    </ng-container>
+<!--      <app-accelerate-checkout-->
+<!--        *ngIf="(da$ | async) as da;"-->
+<!--        [cashappEnabled]="cashappEligible"-->
+<!--        [advancedEnabled]="true"-->
+<!--        [tx]="tx"-->
+<!--        [accelerating]="isAcceleration"-->
+<!--        [eta]="eta"-->
+<!--        [miningStats]="miningStats"-->
+<!--        [scrollEvent]="scrollIntoAccelPreview"-->
+<!--        [showDetails]="showAccelerationDetails"-->
+<!--        [noCTA]="true"-->
+<!--        (hasDetails)="setHasAccelerationDetails($event)"-->
+<!--        (completed)="onAccelerationCompleted()"-->
+<!--        (unavailable)="eligibleForAcceleration = false"-->
+<!--        class="h-100 w-100"-->
+<!--      ></app-accelerate-checkout>-->
+<!--    </ng-container>-->
 
     <br>
 
@@ -550,18 +550,18 @@
             @if (eta.blocks >= 7) {
               <span [class]="(!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) ? 'etaDeepMempool justify-content-end align-items-center' : ''">
                 <span i18n="transaction.eta.not-any-time-soon|Transaction ETA mot any time soon">Not any time soon</span>
-                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {
-                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>
-                }
+<!--                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {-->
+<!--                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>-->
+<!--                }-->
               </span>
             } @else if (network === 'liquid' || network === 'liquidtestnet') {
               <app-time kind="until" [time]="eta.time" [fastRender]="false" [fixedRender]="true"></app-time>
             } @else {
               <span [class]="(!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) ? 'etaDeepMempool justify-content-end align-items-center' : ''">
                 <app-time kind="until" [time]="eta.time" [fastRender]="false" [fixedRender]="true"></app-time>
-                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {
-                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>
-                }
+<!--                @if (!tx?.acceleration && acceleratorAvailable && accelerateCtaType === 'button' && !showAccelerationSummary && eligibleForAcceleration) {-->
+<!--                  <a class="btn btn-sm accelerateDeepMempool btn-small-height float-right" i18n="transaction.accelerate|Accelerate button label" (click)="onAccelerateClicked()">Accelerate</a>-->
+<!--                }-->
               </span>
               <span class="eta justify-content-end">
               </span>

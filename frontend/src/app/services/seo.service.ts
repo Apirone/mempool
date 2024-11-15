@@ -98,7 +98,8 @@ export class SeoService {
       return this.baseTitle + ' - Liquid Network';
     if (this.network === 'liquidtestnet')
       return this.baseTitle + ' - Liquid Testnet';
-    return this.baseTitle + ' - ' + (this.network ? this.ucfirst(this.network) : 'Bitcoin') + ' Explorer';
+    return this.baseTitle + ' - Apirone';
+    // return this.baseTitle + ' - ' + (this.network ? this.ucfirst(this.network) : 'Bitcoin') + ' Explorer';
   }
 
   getDescription(): string {
