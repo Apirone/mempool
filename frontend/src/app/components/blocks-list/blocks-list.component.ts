@@ -23,7 +23,7 @@ export class BlocksList implements OnInit {
 
   isMempoolModule = false;
   indexingAvailable = false;
-  auditAvailable = false;
+  auditAvailable = true;
   isLoading = true;
   fromBlockHeight = undefined;
   lastBlockHeightFetched = -1;
@@ -60,11 +60,11 @@ export class BlocksList implements OnInit {
   ngOnInit(): void {
     this.indexingAvailable = (this.stateService.env.BASE_MODULE === 'mempool' &&
       this.stateService.env.MINING_DASHBOARD === true);
-    this.auditAvailable = this.indexingAvailable && this.stateService.env.AUDIT;
+    this.auditAvailable = this.indexingAvailable;
 
     if (!this.widget) {
       this.websocketService.want(['blocks']);
-      
+
       this.seoService.setTitle($localize`:@@8a7b4bd44c0ac71b2e72de0398b303257f7d2f54:Blocks`);
       this.ogService.setManualOgImage('recent-blocks.jpg');
       if( this.stateService.network==='liquid'||this.stateService.network==='liquidtestnet' ) {
@@ -107,7 +107,7 @@ export class BlocksList implements OnInit {
 
     this.skeletonLines = this.widget === true ? [...Array(6).keys()] : [...Array(15).keys()];
     this.paginationMaxSize = window.matchMedia('(max-width: 670px)').matches ? 3 : 5;
-    
+
     this.blocks$ = combineLatest([
       this.fromHeightSubject.pipe(
         filter(fromBlockHeight => fromBlockHeight !== this.lastBlockHeightFetched),
@@ -191,6 +191,21 @@ export class BlocksList implements OnInit {
 
   isEllipsisActive(e): boolean {
     return (e.offsetWidth < e.scrollWidth);
+  }
+
+  getTimeAgo(timestamp: number): string {
+    const now = Date.now();
+    const diff = Math.abs(now - timestamp);
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (seconds < 60) {return `${seconds} sec ago`;}
+    if (minutes < 60) {return `${minutes} min ago`;}
+    if (hours < 24) {return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;}
+    return `${days} days ago`;
   }
 
   ngOnDestroy(): void {

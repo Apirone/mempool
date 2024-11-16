@@ -6,6 +6,12 @@
   }
 }
 
+.recent-transactions {
+  @media (max-width: 767px) {
+    margin-top: 48px;
+  }
+}
+
 .card {
   background-color: var(--bg);
   height: 100%;
