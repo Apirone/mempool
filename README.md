@@ -7,3 +7,6 @@ It is an open-source project developed and operated for the benefit of the Bitco
 ![mempool](https://mempool.space/resources/screenshots/v2.4.0-dashboard.png)
 
 Apirone fork and redesign the frontend part only. Deleted part with miners mentions, cuted functional of accelerattion, localization and other not signifid for us features. This is frontend of bare explorer only.
+
+The mempool.space website, the liquid.network website, the bitcoin.gob.sv website, their associated API services, and related network and server infrastructure (collectively, the "Website") are operated by Mempool Space K.K. in Japan ("Mempool", "We", or "Us") and self-hosted from AS142052. 
+All rights reserverd.
