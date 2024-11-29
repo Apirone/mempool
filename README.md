@@ -1,4 +1,4 @@
-# The Mempool Open Source Project™ [![mempool](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/ry4br7/master&style=flat-square)]
+# The Mempool Open Source Project™
 
 Mempool is the fully-featured mempool visualizer, explorer, and API service running at [mempool.space](https://mempool.space/). 
 
